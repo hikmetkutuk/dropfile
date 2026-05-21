@@ -1,0 +1,41 @@
+# Dependencies
+backend/vendor/
+frontend/node_modules/
+
+# Build output
+backend/bin/
+backend/tmp/
+frontend/dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+
+# Logs
+*.log
+
+# Coverage
+coverage.out
+coverage.html
