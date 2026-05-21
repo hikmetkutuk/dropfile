@@ -1,0 +1,8 @@
+vendor/
+bin/
+tmp/
+*.test
+*.out
+.env
+.env.*
+.DS_Store

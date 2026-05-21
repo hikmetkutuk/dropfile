@@ -3,7 +3,7 @@
 ## Go (backend)
 
 ### Security
-- **Hardcoded secrets/credentials**: Flag any hardcoded API keys, passwords, tokens, or secrets. Must use env vars or vault.
+- **Hardcoded secrets/credentials**: Flag any hardcoded API keys, passwords, tokens, or secrets in any file (Go source, docker-compose.yml, Dockerfile, .env files, shell scripts, config files). Must use env vars or vault. This includes default/fallback values like `${VAR:-hardcoded-default}` in docker-compose — the fallback itself is a hardcoded secret.
 - **SQL injection**: Flag any raw SQL string concatenation or `fmt.Sprintf` for SQL queries. Must use parameterized queries or an ORM.
 - **Path traversal**: Flag any file path constructed from user input without `filepath.Clean()` or validation.
 - **Insecure TLS**: Flag `InsecureSkipVerify: true`, missing TLS config, or weak cipher suites.
