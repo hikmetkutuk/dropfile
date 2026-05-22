@@ -10,6 +10,7 @@ FROM alpine:3.21
 
 RUN apk add --no-cache ca-certificates tzdata
 COPY --from=build /server /usr/local/bin/server
+COPY migrations/ /migrations/
 
 EXPOSE 8080
 HEALTHCHECK --interval=15s --timeout=3s --retries=3 \

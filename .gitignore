@@ -31,6 +31,7 @@ Thumbs.db
 *.dylib
 *.test
 *.out
+server
 go.work
 
 # Logs
