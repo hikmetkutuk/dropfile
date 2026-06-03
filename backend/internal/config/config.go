@@ -32,7 +32,7 @@ func Load() (*Config, error) {
 		Port:        port,
 		DatabaseURL: getEnv("DATABASE_URL", "postgres://localhost:5432/dropfile?sslmode=disable"),
 		JWTSecret:   jwtSecret,
-		CORSOrigin:  getEnv("CORS_ORIGIN", "http://localhost:5173"),
+		CORSOrigin:  getEnv("CORS_ORIGIN", "http://localhost:3000"),
 		Timeout:     30 * time.Second,
 	}, nil
 }
