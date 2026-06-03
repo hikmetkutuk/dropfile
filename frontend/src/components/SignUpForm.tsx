@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { register as registerUser } from "../api/auth";
 import type { RegisterRequest } from "../api/auth";
+import Logo from "./Logo";
 import "./SignUpForm.css";
 
 interface SignUpFields extends RegisterRequest {
@@ -54,6 +56,7 @@ export default function SignUpForm() {
       noValidate
       aria-label="Sign up"
     >
+      <Logo />
       <h2>Create your account</h2>
 
       {serverError && (
@@ -154,6 +157,11 @@ export default function SignUpForm() {
       >
         {isSubmitting ? "Creating account…" : "Sign up"}
       </button>
+
+      <p className="signup-form__footer">
+        Already have an account?{' '}
+        <Link to="/sign-in">Sign in</Link>
+      </p>
     </form>
   );
 }

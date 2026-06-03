@@ -14,6 +14,36 @@ export interface ApiError {
   error: string;
 }
 
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  token: string;
+}
+
+export async function login(
+  data: LoginRequest,
+  signal?: AbortSignal,
+): Promise<LoginResponse> {
+  const res = await fetch(`${BASE_URL}/api/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+    signal,
+  });
+
+  if (!res.ok) {
+    const body: ApiError = await res.json().catch(() => ({
+      error: "network error",
+    }));
+    throw new Error(body.error);
+  }
+
+  return res.json();
+}
+
 export async function register(
   data: RegisterRequest,
 ): Promise<RegisterResponse> {

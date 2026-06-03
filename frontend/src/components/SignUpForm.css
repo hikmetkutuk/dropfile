@@ -7,6 +7,15 @@
   box-sizing: border-box;
 }
 
+/* ---- logo ---- */
+
+.signup-form__logo {
+  display: block;
+  margin: 0 auto 32px;
+  width: 220px;
+  height: auto;
+}
+
 .signup-form h2 {
   margin: 0 0 24px;
   text-align: center;
@@ -114,4 +123,22 @@
 .signup-form__submit:disabled {
   opacity: 0.55;
   cursor: not-allowed;
+}
+
+/* ---- footer ---- */
+
+.signup-form__footer {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.signup-form__footer a {
+  color: var(--accent);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.signup-form__footer a:hover {
+  text-decoration: underline;
 }

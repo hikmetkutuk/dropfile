@@ -1,5 +1,6 @@
 import { Routes, Route, Link } from 'react-router-dom'
 import SignUpForm from './components/SignUpForm'
+import SignInForm from './components/SignInForm'
 import './App.css'
 
 function App() {
@@ -12,7 +13,10 @@ function App() {
             <section id="center">
               <h1>Dropfile</h1>
               <p>
-                <Link to="/sign-up">Create an account</Link>
+                <Link to="/sign-in">Sign in</Link>
+                {' '}
+                or{' '}
+                <Link to="/sign-up">create an account</Link>
                 {' '}
                 to get started.
               </p>
@@ -20,6 +24,14 @@ function App() {
             <div className="ticks" />
             <section id="spacer" />
           </>
+        }
+      />
+      <Route
+        path="/sign-in"
+        element={
+          <section id="center">
+            <SignInForm />
+          </section>
         }
       />
       <Route
