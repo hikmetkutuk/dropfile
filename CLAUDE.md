@@ -24,6 +24,7 @@
 - **Commented-out code**: Flag blocks of commented-out code. Remove or explain with a tracker reference.
 - **Error wrapping**: Flag plain `return err` — should use `fmt.Errorf("...: %w", err)` to preserve the error chain.
 - **Magic numbers/strings**: Flag unnamed literals in business logic. Extract to named constants.
+- **Duplicate string literals (SonarQube go:S1192)**: Flag every non-trivial string literal that appears **3 or more times** anywhere in the project — not just in changed lines, but across the entire file. This includes HTTP headers (`"Content-Type"`), MIME types (`"application/json"`), error messages, config keys, and any repeated value. Each must be extracted to a file-level `const` block. List each duplicated literal with all file:line locations.
 - **Struct field alignment**: Flag excessively padded structs; suggest reordering to minimize memory footprint.
 - **Unused parameters/dependencies**: Flag unused function parameters and imported-but-unused packages (Go compiler catches imports).
 
@@ -75,6 +76,7 @@
 - **`ts-ignore` / `ts-expect-error`**: Flag as technical debt — must include a comment with a ticket reference.
 - **Console.log left in production code**: Flag `console.log`/`console.warn` — recommend a proper logging utility or cleanup.
 - **Duplicate code**: Flag 10+ line blocks repeated across files with structural similarity.
+- **Duplicate string literals (SonarQube typescript:S1192)**: Flag every non-trivial string literal that appears **3 or more times** anywhere in the project — not just in changed lines, but across the entire file. This includes API paths, route strings, localStorage keys, CSS class names, and any repeated value. List each duplicated literal with all file:line locations.
 - **God component**: Flag any component exceeding 200 lines or handling more than 3 distinct responsibilities.
 
 ---

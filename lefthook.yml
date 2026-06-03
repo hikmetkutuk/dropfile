@@ -1,0 +1,101 @@
+pre-commit:
+  parallel: false
+  commands:
+    frontend-prettier:
+      glob: "frontend/src/**/*.{ts,tsx,json}"
+      run: |
+        tmpdir=$(mktemp -d)
+        trap 'rm -rf "$tmpdir"' EXIT
+        set -- {staged_files}
+        for file in "$@"; do
+          mkdir -p "$tmpdir/original/$(dirname "$file")" "$tmpdir/final/$(dirname "$file")" "$tmpdir/modes/$(dirname "$file")"
+          git show ":$file" > "$tmpdir/original/$file"
+          git ls-files -s -- "$file" | awk '{print $1}' > "$tmpdir/modes/$file"
+        done
+
+        stashed=0
+        if ! git diff --quiet --ignore-submodules -- "$@"; then
+          git stash push --quiet --keep-index -m "lefthook frontend-prettier" -- "$@"
+          stashed=1
+        fi
+
+        hook_status=0
+        npm --prefix frontend exec prettier -- --config frontend/.prettierrc --write "$@" || hook_status=$?
+        if [ "$hook_status" -eq 0 ]; then
+          git add "$@" || hook_status=$?
+          for file in "$@"; do
+            git show ":$file" > "$tmpdir/final/$file" || hook_status=$?
+          done
+        fi
+
+        if [ "$stashed" -eq 1 ]; then
+          restore_status=0
+          git diff --binary 'stash@{0}^2' 'stash@{0}' -- "$@" | git apply --3way --whitespace=nowarn || restore_status=$?
+          if [ "$restore_status" -eq 0 ]; then
+            for file in "$@"; do
+              mode=$(cat "$tmpdir/modes/$file")
+              if [ "$hook_status" -eq 0 ]; then
+                oid=$(git hash-object -w -- "$tmpdir/final/$file")
+              else
+                oid=$(git hash-object -w -- "$tmpdir/original/$file")
+              fi
+              git update-index --add --cacheinfo "$mode,$oid,$file" || restore_status=$?
+            done
+            git stash drop --quiet 'stash@{0}' || restore_status=$?
+          else
+            echo "Lefthook kept unstaged changes in stash@{0}; apply or drop it after resolving." >&2
+          fi
+          if [ "$hook_status" -eq 0 ]; then
+            hook_status=$restore_status
+          fi
+        fi
+        exit "$hook_status"
+    backend-goimports:
+      glob: "backend/**/*.go"
+      run: |
+        tmpdir=$(mktemp -d)
+        trap 'rm -rf "$tmpdir"' EXIT
+        set -- {staged_files}
+        for file in "$@"; do
+          mkdir -p "$tmpdir/original/$(dirname "$file")" "$tmpdir/final/$(dirname "$file")" "$tmpdir/modes/$(dirname "$file")"
+          git show ":$file" > "$tmpdir/original/$file"
+          git ls-files -s -- "$file" | awk '{print $1}' > "$tmpdir/modes/$file"
+        done
+
+        stashed=0
+        if ! git diff --quiet --ignore-submodules -- "$@"; then
+          git stash push --quiet --keep-index -m "lefthook backend-goimports" -- "$@"
+          stashed=1
+        fi
+
+        hook_status=0
+        goimports -local github.com/hikmetkutuk/dropfile -w "$@" || hook_status=$?
+        if [ "$hook_status" -eq 0 ]; then
+          git add "$@" || hook_status=$?
+          for file in "$@"; do
+            git show ":$file" > "$tmpdir/final/$file" || hook_status=$?
+          done
+        fi
+
+        if [ "$stashed" -eq 1 ]; then
+          restore_status=0
+          git diff --binary 'stash@{0}^2' 'stash@{0}' -- "$@" | git apply --3way --whitespace=nowarn || restore_status=$?
+          if [ "$restore_status" -eq 0 ]; then
+            for file in "$@"; do
+              mode=$(cat "$tmpdir/modes/$file")
+              if [ "$hook_status" -eq 0 ]; then
+                oid=$(git hash-object -w -- "$tmpdir/final/$file")
+              else
+                oid=$(git hash-object -w -- "$tmpdir/original/$file")
+              fi
+              git update-index --add --cacheinfo "$mode,$oid,$file" || restore_status=$?
+            done
+            git stash drop --quiet 'stash@{0}' || restore_status=$?
+          else
+            echo "Lefthook kept unstaged changes in stash@{0}; apply or drop it after resolving." >&2
+          fi
+          if [ "$hook_status" -eq 0 ]; then
+            hook_status=$restore_status
+          fi
+        fi
+        exit "$hook_status"

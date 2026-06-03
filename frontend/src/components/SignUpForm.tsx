@@ -43,7 +43,8 @@ export default function SignUpForm() {
       <output className="signup-form">
         <h2>Check your email</h2>
         <p>
-          We've sent a confirmation link. (Just kidding — your account is ready!)
+          We've sent a confirmation link. (Just kidding — your account is
+          ready!)
         </p>
       </output>
     );
@@ -86,7 +87,11 @@ export default function SignUpForm() {
           })}
         />
         {errors.email && (
-          <span id="signup-email-err" className="signup-form__error" role="alert">
+          <span
+            id="signup-email-err"
+            className="signup-form__error"
+            role="alert"
+          >
             {errors.email.message}
           </span>
         )}
@@ -159,8 +164,7 @@ export default function SignUpForm() {
       </button>
 
       <p className="signup-form__footer">
-        Already have an account?{' '}
-        <Link to="/sign-in">Sign in</Link>
+        Already have an account? <Link to="/sign-in">Sign in</Link>
       </p>
     </form>
   );

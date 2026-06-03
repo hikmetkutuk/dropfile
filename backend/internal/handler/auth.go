@@ -10,8 +10,14 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
-	"github.com/hikmetkutuk/dropfile/backend/internal/dto"
 	"golang.org/x/crypto/bcrypt"
+
+	"github.com/hikmetkutuk/dropfile/backend/internal/dto"
+)
+
+const (
+	contentType     = "Content-Type"
+	applicationJSON = "application/json"
 )
 
 type Auth struct {
@@ -55,7 +61,7 @@ func (a *Auth) Register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	resp := dto.RegisterResponse{UUID: id.String(), Email: req.Email}
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set(contentType, applicationJSON)
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(resp)
 }
@@ -102,12 +108,12 @@ func (a *Auth) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	resp := dto.LoginResponse{Token: tokenStr}
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set(contentType, applicationJSON)
 	json.NewEncoder(w).Encode(resp)
 }
 
 func writeError(w http.ResponseWriter, code int, msg string) {
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set(contentType, applicationJSON)
 	w.WriteHeader(code)
 	json.NewEncoder(w).Encode(map[string]string{"error": msg})
 }

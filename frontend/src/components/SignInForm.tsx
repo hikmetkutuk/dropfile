@@ -79,7 +79,11 @@ export default function SignInForm() {
           })}
         />
         {errors.email && (
-          <span id="signin-email-err" className="signup-form__error" role="alert">
+          <span
+            id="signin-email-err"
+            className="signup-form__error"
+            role="alert"
+          >
             {errors.email.message}
           </span>
         )}
@@ -117,8 +121,7 @@ export default function SignInForm() {
       </button>
 
       <p className="signup-form__footer">
-        Don't have an account?{' '}
-        <Link to="/sign-up">Sign up</Link>
+        Don't have an account? <Link to="/sign-up">Sign up</Link>
       </p>
     </form>
   );

@@ -1,7 +1,7 @@
-import { Routes, Route, Link } from 'react-router-dom'
-import SignUpForm from './components/SignUpForm'
-import SignInForm from './components/SignInForm'
-import './App.css'
+import { Routes, Route, Link } from "react-router-dom";
+import SignUpForm from "./components/SignUpForm";
+import SignInForm from "./components/SignInForm";
+import "./App.css";
 
 function App() {
   return (
@@ -13,12 +13,8 @@ function App() {
             <section id="center">
               <h1>Dropfile</h1>
               <p>
-                <Link to="/sign-in">Sign in</Link>
-                {' '}
-                or{' '}
-                <Link to="/sign-up">create an account</Link>
-                {' '}
-                to get started.
+                <Link to="/sign-in">Sign in</Link> or{" "}
+                <Link to="/sign-up">create an account</Link> to get started.
               </p>
             </section>
             <div className="ticks" />
@@ -43,7 +39,7 @@ function App() {
         }
       />
     </Routes>
-  )
+  );
 }
 
-export default App
+export default App;
